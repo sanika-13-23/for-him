@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surprise</title>
+
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  height: 100%;
+  background: #1a1a1a;
+}
+
+.screen {
+  display: none;
+  height: 100vh;
+  width: 100vw;
+  color: white;
+  text-align: center;
+}
+
+.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  padding: 15px 25px;
+  margin-top: 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background: #ff69b4;
+  color: black;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ff85c1;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: #ffd6e8;
+  color: #000;
+  padding: 25px;
+  border-radius: 10px;
+  max-width: 80%;
+  font-size: 18px;
+}
+
+.question-box {
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 90%;
+}
+
+input {
+  padding: 10px;
+  font-size: 18px;
+  width: 200px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- WELCOME -->
+<div id="welcome" class="screen active">
+  <h1 style="font-size:4em;">Welcome Baby</h1>
+  <button onclick="goTo('classroom')">Go in</button>
+</div>
+
+<!-- CLASSROOM -->
+<div id="classroom" class="screen">
+  <h2>Can you solve these math questions Mr. Singh?</h2>
+  <button onclick="goTo('math')">Darte hai kya</button>
+</div>
+
+<!-- MATH GAME -->
+<div id="math" class="screen">
+  <div class="question-box">
+    <h3 id="question"></h3>
+    <input id="answer" placeholder="Your answer">
+    <br>
+    <button onclick="checkAnswer()">Submit</button>
+  </div>
+</div>
+
+<!-- FINAL TEXT -->
+<div id="final" class="screen">
+  <h2>Oye hoyee bete sab solve karliya 😏</h2>
+  <p>Meri taraf se aapko dher saari chummiya 💋</p>
+  <button onclick="goTo('image')">Something else awaits for you darling</button>
+</div>
+
+<!-- FINAL IMAGE -->
+<div id="image" class="screen">
+  <img src="final.jpg" style="width:100%; height:100%; object-fit:cover;">
+</div>
+
+<!-- POPUP -->
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <p id="popupText"></p>
+    <button onclick="closePopup()">Continue</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  { q: "If sinθ = 5/13, find cosθ (acute angle)", a: "12/13" },
+  { q: "Solve: 3x² − 11x − 4 = 0 (smaller root)", a: "-1/3" },
+  { q: "If tanθ = √3, find θ (degrees)", a: "60" },
+  { q: "Solve: 2x² − 5x − 3 = 0 (positive root)", a: "3" },
+  { q: "If cosθ = −1/2, θ in degrees (0–180)", a: "120" },
+  { q: "Solve: x³ − 27 = 0", a: "3" },
+  { q: "If sinθ = cosθ, θ in degrees", a: "45" },
+  { q: "Solve: log₁₀(x) = 3", a: "1000" },
+  { q: "Find x: 2^(x+1) = 16", a: "3" },
+  { q: "Solve: x² − 4x + 4 = 0", a: "2" }
+];
+
+const messages = [
+  "With you, everything feels like ideal conductivity — no barriers, just effortless flow between us.",
+  "You tuned my heart like a resonance circuit — every beat hits perfectly when you’re near.",
+  "Being close to you makes my voltage rise… in the sweetest, most thrilling way.",
+  "You’re the only signal my heart locks onto, even in a world full of interference.",
+  "You’re the solution to all my equations — the unknown I never want to solve, just hold close.",
+  "Being with you feels like finding a perfect proof — elegant, inevitable, and satisfying in every step.",
+  "Being with you feels like perfect synchronization — same frequency, no phase difference.",
+  "You make my capacitors feel fully charged… and dangerously ready to discharge.",
+  "Every time you smile, my system oscillates — and I secretly hope for a little feedback.",
+  "You’re my favorite theorem come to life — beautifully logical, yet impossible to resist."
+];
+
+let index = 0;
+loadQuestion();
+
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function loadQuestion() {
+  if (index >= questions.length) {
+    goTo('final');
+    return;
+  }
+  document.getElementById('question').innerText = questions[index].q;
+}
+
+function checkAnswer() {
+  const ans = document.getElementById('answer').value.trim();
+  if (ans === questions[index].a) {
+    document.getElementById('popupText').innerText = messages[index];
+    document.getElementById('popup').style.display = 'flex';
+  } else {
+    alert("Galat 😌 try again");
+  }
+}
+
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+  document.getElementById('answer').value = '';
+  index++;
+  loadQuestion();
+}
+</script>
+
+</body>
+</html>
